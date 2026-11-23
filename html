@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Dashboard - Acode</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      padding: 20px;
+      transition: background 0.6s ease;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px 25px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    #clock {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    #date {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 25px;
+    }
+
+    .quote-box {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 25px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #quote {
+      font-size: 0.95rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .btn-quote {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    .btn-theme {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="badge">Acode Project</div>
+    <div id="clock">00:00:00</div>
+    <div id="date">Memuat tanggal...</div>
+
+    <div class="quote-box">
+      <p id="quote">"Mulailah dari mana kamu berada. Gunakan apa yang kamu punya. Lakukan apa yang kamu bisa."</p>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-quote" onclick="acakQuote()">Acak Kutipan</button>
+      <button class="btn-theme" onclick="gantiTema()">Ganti Tema</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Fungsi Jam & Tanggal Real-time
+    function updateWaktu() {
+      const sekarang = new Date();
+      
+      // Format Jam
+      const jam = String(sekarang.getHours()).padStart(2, '0');
+      const menit = String(sekarang.getMinutes()).padStart(2, '0');
+      const detik = String(sekarang.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${jam}:${menit}:${detik}`;
+
+      // Format Tanggal Indonesia
+      const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('date').textContent = sekarang.toLocaleDateString('id-ID', opsiTanggal);
+    }
+    setInterval(updateWaktu, 1000);
+    updateWaktu();
+
+    // 2. Fungsi Kutipan Acak
+    const daftarQuote = [
+      '"Kode yang baik adalah dokumentasi terbaik itu sendiri."',
+      '"Jangan takut gagal, takutlah untuk tidak mencoba sama sekali."',
+      '"Setiap ahli dulunya adalah seorang pemula."',
+      '"Fokus pada progres, bukan kesempurnaan."',
+      '"Ngoding dari HP bukan halangan untuk berkarya!"',
+      '"Error itu biasa, yang luar biasa adalah terus mencari solusinya."'
+    ];
+
+    function acakQuote() {
+      const indeksAcak = Math.floor(Math.random() * daftarQuote.length);
+      document.getElementById('quote').textContent = daftarQuote[indeksAcak];
+    }
+
+    // 3. Fungsi Ganti Warna Tema
+    const daftarTema = [
+      'linear-gradient(135deg, #0f2027, #203a43, #2c5364)',
+      'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)',
+      'linear-gradient(135deg, #2b1055, #7597de)',
+      'linear-gradient(135deg, #134e5e, #71b280)',
+      'linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b)'
+    ];
+    let temaSaatIni = 0;
+
+    function gantiTema() {
+      temaSaatIni = (temaSaatIni + 1) % daftarTema.length;
+      document.body.style.background = daftarTema[temaSaatIni];
+    }
+  </script>
+
+</body>
+</html>
